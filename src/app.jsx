@@ -5,8 +5,8 @@ import Education from "./components/Education/index";
 import Skills from "./components/Skills/";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
-import Contacts from "./components/contacts";
 import { ToastContainer, toast } from "react-toastify";
+import Contacts from "./components/contacts/index";
 
 const App = () => {
   return (
