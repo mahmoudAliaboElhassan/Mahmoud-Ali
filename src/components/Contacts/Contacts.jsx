@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import ContactForm from "./ContactForm";
 
-function Contacts() {
+function Contact() {
   return (
     <section id="contact" className="py-20 bg-gray-900 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,4 +106,4 @@ function Contacts() {
   );
 }
 
-export default Contacts;
+export default Contact;
