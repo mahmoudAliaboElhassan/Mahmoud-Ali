@@ -54,7 +54,9 @@ function About() {
                 </div>
                 <div className="flex justify-between">
                   <span>Education:</span>
-                  <span>Computer Science Graduate</span>
+                  <span style={{ textAlign: "right" }}>
+                    Computer Science Graduate
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Focus:</span>
