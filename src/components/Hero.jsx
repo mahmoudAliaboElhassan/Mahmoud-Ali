@@ -97,7 +97,23 @@ function Hero() {
             src={mahmoudImg}
             alt="Mahmoud Ali"
             className="w-40 h-40 rounded-full mx-auto mb-6 shadow-2xl border-4 border-white"
-            variants={imageVariants}
+            initial={{
+              scale: 0,
+              opacity: 0,
+              rotate: -180,
+            }}
+            whileInView={{
+              scale: 1,
+              opacity: 1,
+              rotate: 0,
+              transition: {
+                duration: 0.8,
+                ease: "easeOut",
+                type: "spring",
+                stiffness: 100,
+              },
+            }}
+            viewport={{ once: false, amount: 0.3 }}
             whileHover={{
               scale: 1.1,
               rotate: 5,

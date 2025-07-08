@@ -12,7 +12,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <div style={{ height: "64px" }}></div>
+      <div style={{ height: "70px" }}></div>
       <ToastContainer />
       <Hero />
       <About />
