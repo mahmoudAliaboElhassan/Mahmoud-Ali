@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import emailjs from "emailjs-com";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+
 // Validation schema
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -23,7 +24,10 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, resetForm, setFieldError }
+  ) => {
     setIsSubmitting(true);
     setSubmitStatus("");
 
@@ -32,6 +36,11 @@ const ContactForm = () => {
       const serviceId = import.meta.env.VITE_APP_SERVICE_ID;
       const templateId = import.meta.env.VITE_APP_TEMPLATE_ID;
       const userId = import.meta.env.VITE_APP_USER_ID;
+
+      // Check if environment variables are set
+      if (!serviceId || !templateId || !userId) {
+        throw new Error("EmailJS configuration is missing");
+      }
 
       // EmailJS template parameters
       const templateParams = {
@@ -50,15 +59,20 @@ const ContactForm = () => {
 
       if (result.status === 200) {
         setSubmitStatus("success");
-        toast("Message Sent Successfully !");
-
+        toast.success("Message Sent Successfully!");
         resetForm();
       } else {
-        setSubmitStatus("error");
+        throw new Error("Failed to send message");
       }
     } catch (error) {
       console.error("EmailJS Error:", error);
       setSubmitStatus("error");
+      toast.error("Failed to send message. Please try again.");
+
+      // You can also set specific field errors if needed
+      if (error.message.includes("email")) {
+        setFieldError("email", "There was an issue with your email address");
+      }
     } finally {
       setIsSubmitting(false);
       setSubmitting(false);
@@ -68,6 +82,12 @@ const ContactForm = () => {
   return (
     <div className="max-w-md mx-auto p-6 bg-gray-900 text-white rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center">Contact Us</h2>
+
+      {submitStatus === "success" && (
+        <div className="mb-4 p-3 bg-green-600 text-white rounded-lg">
+          Message sent successfully! We'll get back to you soon.
+        </div>
+      )}
 
       {submitStatus === "error" && (
         <div className="mb-4 p-3 bg-red-600 text-white rounded-lg">
@@ -91,44 +111,44 @@ const ContactForm = () => {
           touched,
           handleChange,
           handleBlur,
+          handleSubmit: formikHandleSubmit,
+          setFieldTouched,
         }) => (
-          <div className="space-y-6">
+          <Form className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-2">
                 Name
               </label>
-              <input
+              <Field
                 id="name"
                 name="name"
                 type="text"
-                value={values.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="Your name"
               />
-              {errors.name && touched.name && (
-                <div className="text-red-400 text-sm mt-1">{errors.name}</div>
-              )}
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
                 Email
               </label>
-              <input
+              <Field
                 id="email"
                 name="email"
                 type="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="your@email.com"
               />
-              {errors.email && touched.email && (
-                <div className="text-red-400 text-sm mt-1">{errors.email}</div>
-              )}
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
@@ -138,24 +158,23 @@ const ContactForm = () => {
               >
                 Message
               </label>
-              <textarea
+              <Field
+                as="textarea"
                 id="message"
                 name="message"
                 rows={5}
-                value={values.message}
-                onChange={handleChange}
-                onBlur={handleBlur}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors resize-none"
                 placeholder="Your message..."
               />
-              {errors.message && touched.message && (
-                <div className="text-red-400 text-sm mt-1">
-                  {errors.message}
-                </div>
-              )}
+              <ErrorMessage
+                name="message"
+                component="div"
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
-            <motion.div
+            <motion.button
+              type="submit"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{
@@ -165,38 +184,21 @@ const ContactForm = () => {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               onClick={() => {
-                if (
-                  !formikSubmitting &&
-                  !isSubmitting &&
-                  !errors.name &&
-                  !errors.email &&
-                  !errors.message &&
-                  values.name &&
-                  values.email &&
-                  values.message
-                ) {
-                  handleSubmit(values, {
-                    setSubmitting: () => {},
-                    resetForm: () => {},
-                  });
-                }
+                // Mark all fields as touched to show validation errors
+                setFieldTouched("name", true);
+                setFieldTouched("email", true);
+                setFieldTouched("message", true);
               }}
-              className={`w-full py-3 px-6 rounded-lg font-medium transition-colors transform text-center cursor-pointer ${
-                !formikSubmitting &&
-                !isSubmitting &&
-                !errors.name &&
-                !errors.email &&
-                !errors.message &&
-                values.name &&
-                values.email &&
-                values.message
-                  ? "bg-blue-600 text-white hover:bg-blue-700 hover:scale-105"
-                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              disabled={isSubmitting || formikSubmitting}
+              className={`w-full py-3 px-6 rounded-lg font-medium transition-colors transform text-center ${
+                isSubmitting || formikSubmitting
+                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 cursor-pointer"
               }`}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </motion.div>
-          </div>
+              {isSubmitting || formikSubmitting ? "Sending..." : "Send Message"}
+            </motion.button>
+          </Form>
         )}
       </Formik>
     </div>
