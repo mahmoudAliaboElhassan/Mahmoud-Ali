@@ -1,6 +1,7 @@
-import { Award, Calendar, TrendingUp } from "lucide-react";
+import { Award, Calendar, TrendingUp, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
 export const EducationCard = ({ edu, index, isVisible }) => {
   const [achievementsVisible, setAchievementsVisible] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
@@ -15,6 +16,10 @@ export const EducationCard = ({ edu, index, isVisible }) => {
       });
     }
   }, [isVisible, edu.achievements]);
+
+  // Determine if this is a certificate or community engagement
+  const isCertificate = edu.certificateLink || edu.badgeColor;
+  const isOngoing = edu.isOngoing;
 
   return (
     <div
@@ -35,6 +40,21 @@ export const EducationCard = ({ edu, index, isVisible }) => {
       {/* Floating decoration */}
       <div className="absolute top-4 right-4 w-20 h-20 bg-blue-100 rounded-full opacity-20 transform scale-0 group-hover:scale-100 transition-transform duration-500"></div>
 
+      {/* Certificate/Ongoing badge */}
+      {(isCertificate || isOngoing) && (
+        <div className="absolute top-4 left-4 z-20">
+          <div
+            className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+              isOngoing
+                ? "bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse"
+                : "bg-gradient-to-r from-blue-500 to-purple-500"
+            }`}
+          >
+            {isOngoing ? "Ongoing" : "Certificate"}
+          </div>
+        </div>
+      )}
+
       <div className="flex items-start space-x-4 relative z-10">
         <div
           className={`w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
@@ -50,16 +70,31 @@ export const EducationCard = ({ edu, index, isVisible }) => {
 
         <div className="flex-1">
           <div className="flex items-start justify-between mb-2">
-            <h3
-              className={`text-xl font-bold text-gray-800 transition-all duration-300 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-3"
-              }`}
-              style={{ transitionDelay: `${index * 100 + 200}ms` }}
-            >
-              {edu.degree}
-            </h3>
+            <div className="flex-1">
+              <h3
+                className={`text-xl font-bold text-gray-800 transition-all duration-300 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-3"
+                }`}
+                style={{ transitionDelay: `${index * 100 + 200}ms` }}
+              >
+                {edu.degree}
+              </h3>
+
+              {/* Certificate link */}
+              {edu.certificateLink && (
+                <a
+                  href={edu.certificateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-800 text-sm mt-1 transition-colors duration-300"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  <span>{edu.isPage ? "View Page" : "View Certificate"}</span>
+                </a>
+              )}
+            </div>
 
             {/* GPA Badge */}
             {edu.gpa && (
@@ -73,6 +108,23 @@ export const EducationCard = ({ edu, index, isVisible }) => {
               >
                 <TrendingUp className="w-3 h-3" />
                 <span>GPA: {edu.gpa}</span>
+              </div>
+            )}
+
+            {/* Custom badge for certificates */}
+            {edu.badgeColor && !edu.gpa && !edu.isPage && (
+              <div
+                className={`bg-gradient-to-r ${
+                  edu.badgeColor
+                } text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-1 transition-all duration-500 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0 scale-100"
+                    : "opacity-0 translate-y-3 scale-95"
+                }`}
+                style={{ transitionDelay: `${index * 100 + 300}ms` }}
+              >
+                <Award className="w-3 h-3" />
+                <span>Certified</span>
               </div>
             )}
           </div>
@@ -139,13 +191,16 @@ export const EducationCard = ({ edu, index, isVisible }) => {
 
       {/* Progress indicator */}
       <motion.div
-        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"
+        className={`absolute bottom-0 left-0 h-1 ${
+          edu.badgeColor
+            ? `bg-gradient-to-r ${edu.badgeColor}`
+            : "bg-gradient-to-r from-blue-500 to-purple-500"
+        }`}
         initial={{ width: 0 }}
         whileInView={{ width: "100%" }}
         viewport={{ once: false, amount: 0.3 }}
         transition={{
           duration: 1,
-          delay: index * 0.1 + 0.8,
           ease: "easeOut",
         }}
       />
