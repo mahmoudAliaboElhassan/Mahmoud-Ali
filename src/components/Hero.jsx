@@ -73,10 +73,7 @@ function Hero() {
   };
 
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
-    >
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Animated background */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"
