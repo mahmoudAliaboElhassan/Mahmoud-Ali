@@ -132,21 +132,33 @@ function Hero() {
 
         {/* Animated subtitle */}
         <motion.p
-          className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto"
+          className="text-xl md:text-2xl text-gray-600 mb-6 max-w-2xl mx-auto"
           variants={itemVariants}
         >
-          FrontEnd Developer specializing in React.js & Next.js
+          Frontend Developer specializing in React.js & Next.js
         </motion.p>
+
+        {/* Academic achievement */}
+        <motion.div
+          className="mb-8 bg-white/60 backdrop-blur-sm rounded-lg p-4 max-w-md mx-auto shadow-lg"
+          variants={itemVariants}
+        >
+          <p className="text-lg text-gray-700 font-medium">
+            Graduate • Computer & Information Science
+          </p>
+          <p className="text-blue-600 font-semibold text-lg">GPA: 3.42</p>
+        </motion.div>
 
         {/* Animated description */}
         <motion.p
           className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
           variants={itemVariants}
         >
-          I am a Student at The Faculty of Computer and Information Science with
-          a passion for creating engaging and visually appealing web
-          experiences. My journey in programming has given me a strong
-          foundation in modern web technologies and best practices.
+          A passionate frontend developer with a strong academic foundation in
+          computer science. I transform ideas into dynamic, user-centered web
+          applications using modern technologies and industry best practices. My
+          expertise lies in crafting responsive, performant, and visually
+          compelling digital experiences.
         </motion.p>
 
         {/* Animated buttons */}

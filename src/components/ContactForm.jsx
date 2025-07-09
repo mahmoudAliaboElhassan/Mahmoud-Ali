@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import emailjs from "emailjs-com";
 import { toast } from "react-toastify";
-
+import { motion } from "framer-motion";
 // Validation schema
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -155,7 +155,15 @@ const ContactForm = () => {
               )}
             </div>
 
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{
+                scale: 1.05,
+                transition: { duration: 0.2 },
+              }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               onClick={() => {
                 if (
                   !formikSubmitting &&
@@ -187,7 +195,7 @@ const ContactForm = () => {
               }`}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
-            </div>
+            </motion.div>
           </div>
         )}
       </Formik>

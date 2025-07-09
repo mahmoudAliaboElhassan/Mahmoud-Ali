@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import UseEducation from "../../hooks/use-education";
 import { EducationCard } from "./EducationCard";
+
 export default function Education() {
   const { education } = UseEducation();
   const [isVisible, setIsVisible] = useState(false);
@@ -59,8 +60,8 @@ export default function Education() {
                 : "opacity-0 translate-y-5"
             }`}
           >
-            My educational journey and continuous learning path in computer
-            science and web development.
+            My educational journey and academic achievements in computer science
+            and web development.
           </p>
         </div>
 

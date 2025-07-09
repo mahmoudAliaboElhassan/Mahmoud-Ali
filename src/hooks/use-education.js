@@ -16,6 +16,7 @@ function UseEducation() {
         "Web Development Technologies",
       ],
       icon: GraduationCap,
+      gpa: 3.42,
     },
     {
       degree: "Frontend Development Certification",

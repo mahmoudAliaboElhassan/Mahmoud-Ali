@@ -1,6 +1,6 @@
-import { Award, Calendar } from "lucide-react";
+import { Award, Calendar, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
 export const EducationCard = ({ edu, index, isVisible }) => {
   const [achievementsVisible, setAchievementsVisible] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
@@ -49,16 +49,33 @@ export const EducationCard = ({ edu, index, isVisible }) => {
         </div>
 
         <div className="flex-1">
-          <h3
-            className={`text-xl font-bold text-gray-800 mb-2 transition-all duration-300 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-3"
-            }`}
-            style={{ transitionDelay: `${index * 100 + 200}ms` }}
-          >
-            {edu.degree}
-          </h3>
+          <div className="flex items-start justify-between mb-2">
+            <h3
+              className={`text-xl font-bold text-gray-800 transition-all duration-300 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-3"
+              }`}
+              style={{ transitionDelay: `${index * 100 + 200}ms` }}
+            >
+              {edu.degree}
+            </h3>
+
+            {/* GPA Badge */}
+            {edu.gpa && (
+              <div
+                className={`bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-1 transition-all duration-500 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0 scale-100"
+                    : "opacity-0 translate-y-3 scale-95"
+                }`}
+                style={{ transitionDelay: `${index * 100 + 300}ms` }}
+              >
+                <TrendingUp className="w-3 h-3" />
+                <span>GPA: {edu.gpa}</span>
+              </div>
+            )}
+          </div>
 
           <p
             className={`text-blue-600 font-medium mb-1 transition-all duration-300 ${
@@ -66,7 +83,7 @@ export const EducationCard = ({ edu, index, isVisible }) => {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-3"
             }`}
-            style={{ transitionDelay: `${index * 100 + 300}ms` }}
+            style={{ transitionDelay: `${index * 100 + 400}ms` }}
           >
             {edu.institution}
           </p>
@@ -77,7 +94,7 @@ export const EducationCard = ({ edu, index, isVisible }) => {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-3"
             }`}
-            style={{ transitionDelay: `${index * 100 + 400}ms` }}
+            style={{ transitionDelay: `${index * 100 + 500}ms` }}
           >
             <Calendar
               className={`w-4 h-4 transition-transform duration-300 ${
@@ -93,7 +110,7 @@ export const EducationCard = ({ edu, index, isVisible }) => {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-3"
             }`}
-            style={{ transitionDelay: `${index * 100 + 500}ms` }}
+            style={{ transitionDelay: `${index * 100 + 600}ms` }}
           >
             {edu.description}
           </p>
@@ -121,12 +138,17 @@ export const EducationCard = ({ edu, index, isVisible }) => {
       </div>
 
       {/* Progress indicator */}
-      <div
-        className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-1000 ${
-          isVisible ? "w-full" : "w-0"
-        }`}
-        style={{ transitionDelay: `${index * 100 + 800}ms` }}
-      ></div>
+      <motion.div
+        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"
+        initial={{ width: 0 }}
+        whileInView={{ width: "100%" }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{
+          duration: 1,
+          delay: index * 0.1 + 0.8,
+          ease: "easeOut",
+        }}
+      />
     </div>
   );
 };
