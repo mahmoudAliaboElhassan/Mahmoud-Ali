@@ -14,7 +14,7 @@ const UseEducation = () => {
       institution:
         "Faculty of Computer and Information Science, Assiut University",
       period: "2021 - 2025",
-      gpa: "3.42/4.0 (Very Good)",
+      gpa: "3.47/4.0 (Very Good)",
       description:
         "Comprehensive study in computer science fundamentals, software engineering, data structures, algorithms, and web development technologies.",
       achievements: [

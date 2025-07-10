@@ -143,7 +143,7 @@ function Hero() {
           <p className="text-lg text-gray-700 font-medium">
             Graduate • Computer & Information Science
           </p>
-          <p className="text-blue-600 font-semibold text-lg">GPA: 3.42</p>
+          <p className="text-blue-600 font-semibold text-lg">GPA: 3.47</p>
         </motion.div>
 
         {/* Animated description */}
