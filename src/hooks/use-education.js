@@ -46,6 +46,23 @@ const UseEducation = () => {
       badgeColor: "from-green-500 to-emerald-500",
     },
     {
+      degree: "Web Masters Front-End Development Training Program",
+      institution: "Web Masters",
+      period: "February 2025 - July 2025",
+      description:
+        "Comprehensive 3-month front-end development training program focusing on modern web technologies, responsive design, and advanced JavaScript frameworks with practical project implementation.",
+      achievements: [
+        "Completed intensive front-end development curriculum",
+        "Mastered modern JavaScript frameworks and libraries",
+        "Developed responsive and interactive web applications",
+        "Applied best practices in web development",
+      ],
+      icon: Code,
+      certificateLink:
+        "https://drive.google.com/file/d/1r0_BzRwdNrc-xjcwyJtkpf7YaEPXWQ4o/view?usp=drive_link", // Add your certificate link here
+      badgeColor: "from-blue-600 to-indigo-600",
+    },
+    {
       degree: "React Basics Certification",
       institution: "Meta (Facebook)",
       period: "May 2023 - July 2023",
