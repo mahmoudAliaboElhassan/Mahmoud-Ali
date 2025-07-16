@@ -71,7 +71,7 @@ function Contact() {
     },
     {
       icon: Linkedin,
-      href: "https://www.linkedin.com/in/mahmoudfrontenddeveloper/",
+      href: "https://www.linkedin.com/in/mahmoudali-webdev/",
       color: "hover:bg-blue-600",
     },
     {
