@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Download } from "lucide-react";
-import { NavItem } from "./NavItem";
+import React, { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X, Download } from "lucide-react"
+import { NavItem } from "./NavItem"
 
 function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMediumScreen, setIsMediumScreen] = useState(false)
 
   const sections = [
     "home",
@@ -16,96 +16,103 @@ function Header() {
     "skills",
     "projects",
     "contact",
-  ];
+  ]
 
   const cvConfig = {
     googleDriveId: "1_gydfpWBb9NmYXQAvAhNlLGvhRSR-Asa",
     downloadFileName: "Mahmoud_Ali_Frontend_Developer_CV.pdf",
     fallbackUrl:
       "https://drive.google.com/file/d/1_gydfpWBb9NmYXQAvAhNlLGvhRSR-Asa/view",
-  };
+  }
 
   const handleCVDownload = () => {
     try {
-      let downloadUrl;
+      let downloadUrl
       if (cvConfig.filePath) {
-        downloadUrl = cvConfig.filePath;
+        downloadUrl = cvConfig.filePath
       } else if (cvConfig.googleDriveId) {
-        downloadUrl = `https://drive.google.com/uc?export=download&id=${cvConfig.googleDriveId}`;
+        downloadUrl = `https://drive.google.com/uc?export=download&id=${cvConfig.googleDriveId}`
       } else if (cvConfig.externalUrl) {
-        downloadUrl = cvConfig.externalUrl;
+        downloadUrl = cvConfig.externalUrl
       } else {
-        console.error("No CV download URL configured");
-        return;
+        console.error("No CV download URL configured")
+        return
       }
 
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = cvConfig.downloadFileName;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
+      const link = document.createElement("a")
+      link.href = downloadUrl
+      link.download = cvConfig.downloadFileName
+      link.target = "_blank"
+      link.rel = "noopener noreferrer"
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
 
       if (typeof gtag !== "undefined") {
         gtag("event", "download", {
           event_category: "CV",
           event_label: "Header Download Button",
-        });
+        })
       }
     } catch (error) {
-      console.error("Download failed:", error);
-      const fallbackUrl = cvConfig.fallbackUrl || cvConfig.filePath;
+      console.error("Download failed:", error)
+      const fallbackUrl = cvConfig.fallbackUrl || cvConfig.filePath
       if (fallbackUrl) {
-        window.open(fallbackUrl, "_blank", "noopener,noreferrer");
+        window.open(fallbackUrl, "_blank", "noopener,noreferrer")
       }
     }
-  };
+  }
 
   useEffect(() => {
     const handleResize = () => {
       // Check if screen is between tablet and desktop (768px to 1024px)
-      setIsMediumScreen(window.innerWidth >= 768 && window.innerWidth < 1024);
-    };
+      setIsMediumScreen(window.innerWidth >= 768 && window.innerWidth < 1024)
+    }
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 50)
 
       const currentSection = sections.find((section) => {
-        const element = document.getElementById(section);
+        const element = document.getElementById(section)
         if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          const rect = element.getBoundingClientRect()
+          return rect.top <= 100 && rect.bottom >= 100
         }
-        return false;
-      });
+        return false
+      })
 
       if (currentSection) {
-        setActiveSection(currentSection);
+        setActiveSection(currentSection)
+      } else {
+        setActiveSection("home")
       }
-    };
+    }
 
     // Initial check
-    handleResize();
+    handleResize()
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      console.log("window.lenis", window.lenis)
+
+      window.lenis.scrollTo(element, {
+        duration: 1.5,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      })
     }
-    setIsMenuOpen(false);
-  };
+    setIsMenuOpen(false)
+  }
 
   // Animation variants
   const navVariants = {
@@ -115,7 +122,7 @@ function Header() {
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" },
     },
-  };
+  }
 
   const menuVariants = {
     hidden: {
@@ -128,7 +135,7 @@ function Header() {
       height: "auto",
       transition: { duration: 0.3, ease: "easeInOut" },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, x: -20 },
@@ -141,7 +148,7 @@ function Header() {
         ease: "easeOut",
       },
     }),
-  };
+  }
 
   const mobileItemVariants = {
     hidden: { opacity: 0, x: -20 },
@@ -154,7 +161,7 @@ function Header() {
         ease: "easeOut",
       },
     }),
-  };
+  }
 
   const buttonVariants = {
     hover: {
@@ -166,14 +173,14 @@ function Header() {
       scale: 0.95,
       transition: { duration: 0.1 },
     },
-  };
+  }
 
   const iconVariants = {
     hover: {
       rotate: 12,
       transition: { duration: 0.3 },
     },
-  };
+  }
 
   return (
     <section id="home">
@@ -371,7 +378,7 @@ function Header() {
         </AnimatePresence>
       </motion.nav>
     </section>
-  );
+  )
 }
 
-export default Header;
+export default Header

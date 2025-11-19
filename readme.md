@@ -12,6 +12,7 @@ This project showcases my skills, projects, and contact information in a clean, 
 - **React.js** – Frontend framework
 - **Framer Motion** – Animations
 - **React-Router-DOM** – Navigation between pages
+- **lenis** – Smooth Scrolling with Features
 - **Tailwind CSS** – Utility-first styling
 - **EmailJS** – Contact form integration
 - **React-Toastify** – Notifications

@@ -1,14 +1,17 @@
-import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
-import mahmoudImg from "../assets/Mahmoud Ali.png";
+import { ChevronDown } from "lucide-react"
+import { motion } from "framer-motion"
+import mahmoudImg from "../assets/Mahmoud Ali.png"
 
 function Hero() {
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      window.lenis.scrollTo(element, {
+        duration: 1.5,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      })
     }
-  };
+  }
 
   // Animation variants
   const containerVariants = {
@@ -20,7 +23,7 @@ function Hero() {
         staggerChildren: 0.2,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -31,7 +34,7 @@ function Hero() {
         duration: 0.5,
       },
     },
-  };
+  }
 
   const imageVariants = {
     hidden: {
@@ -50,7 +53,7 @@ function Hero() {
         stiffness: 100,
       },
     },
-  };
+  }
 
   const buttonVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -70,7 +73,7 @@ function Hero() {
     tap: {
       scale: 0.95,
     },
-  };
+  }
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
@@ -211,7 +214,7 @@ function Hero() {
         </motion.div>
       </motion.div>
     </section>
-  );
+  )
 }
 
-export default Hero;
+export default Hero
